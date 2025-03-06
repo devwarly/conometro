@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronômetro Dev</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <div class="dv_prin">
+        <div>
+            <h1>Cronômetro
+            </h1>
+        </div>
+
+        <div class="the_cont">
+            <div class="contador" id="anos-contador">
+                <div class="progress-background" data-color="#ffffbc"></div>
+                <div class="gg">
+                    <p id="anos" class="nun">00</p>
+                    <p class="texts">Anos</p>
+                </div>
+            </div>
+
+            <div class="contador" id="meses-contador">
+                <div class="progress-background" data-color="#003fa3"></div>
+                <div class="gg">
+                    <p id="meses" class="nun">00</p>
+                    <p class="texts">Meses</p>
+                </div>
+            </div>
+
+            <div class="contador" id="dias-contador">
+                <div class="progress-background" data-color="#eb0223"></div>
+                <div class="gg">
+                    <p id="dias" class="nun">00</p>
+                    <p class="texts">Dias</p>
+                </div>
+            </div>
+
+            <div class="contador" id="horas-contador">
+                <div class="progress-background" data-color="#450fb4"></div>
+                <div class="gg">
+                    <p id="horas" class="nun">00</p>
+                    <p class="texts">Horas</p>
+                </div>
+            </div>
+
+            <div class="contador" id="minutos-contador">
+                <div class="progress-background" data-color="#d5f530"></div>
+                <div class="gg">
+                    <p id="minutos" class="nun">00</p>
+                    <p class="texts">Minutos</p>
+                </div>
+            </div>
+
+            <div class="contador" id="segundos-contador">
+                <div class="progress-background" data-color="#22f0fb"></div>
+                <div class="gg">
+                    <p id="segundos" class="nun">00</p>
+                    <p class="texts">Segundos</p>
+                </div>
+            </div>
+        </div>
+        <div class="dt-inicio">
+            <p>Cronômetro inciciado dia 5 de Março de 2025 às 22:07</p>
+        </div>
+    </div>
+
+    <footer>
+        <p class="copy">Warly Martins &copy;2025</p>
+    </footer>
+
+
+    <script>
+        let startTime = localStorage.getItem('startTime') ? parseInt(localStorage.getItem('startTime')) : Date.now();
+
+        const updateCounter = () => {
+            const now = Date.now();
+            const elapsed = now - startTime;
+
+            const years = Math.floor(elapsed / (1000 * 60 * 60 * 24 * 365));
+            const months = Math.floor((elapsed % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
+            const days = Math.floor((elapsed % (1000 * 60 * 60 * 24 * 30)) / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((elapsed % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((elapsed % (1000 * 60)) / 1000);
+
+            document.getElementById('anos').textContent = years.toString().padStart(2, '0');
+            document.getElementById('meses').textContent = months.toString().padStart(2, '0');
+            document.getElementById('dias').textContent = days.toString().padStart(2, '0');
+            document.getElementById('horas').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutos').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('segundos').textContent = seconds.toString().padStart(2, '0');
+
+            updateProgress('anos', years, 100);
+            updateProgress('meses', months, 12);
+            updateProgress('dias', days, 30);
+            updateProgress('horas', hours, 24);
+            updateProgress('minutos', minutes, 60);
+            updateProgress('segundos', seconds, 60);
+        };
+
+        const updateProgress = (id, value, max) => {
+            const percentage = (value / max) * 100;
+            const progressBackground = document.querySelector(`#${id}-contador .progress-background`);
+            const color = progressBackground.getAttribute('data-color');
+            progressBackground.style.background = `conic-gradient(${color} ${percentage}%, transparent ${percentage}%)`;
+        };
+
+        setInterval(updateCounter, 1000);
+
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem('startTime', startTime);
+        });
+
+        updateCounter();
+    </script>
+
+</body>
+
+</html>
