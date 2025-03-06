@@ -70,7 +70,7 @@
             </div>
         </div>
         <div class="dt-inicio">
-            <p>Cronômetro inciciado dia 6 de Março de 2025 às 00:05.</p>
+            <p>Cronômetro iniciado dia 5 de Março de 2025 às 22:07</p>
         </div>
     </div>
 
@@ -78,13 +78,12 @@
         <p class="copy">Warly Martins &copy;2025</p>
     </footer>
 
-
     <script>
-        let startTime = localStorage.getItem('startTime') ? parseInt(localStorage.getItem('startTime')) : Date.now();
+        const deployTime = new Date('2025-03-06T00:05:00Z').getTime();
 
         const updateCounter = () => {
             const now = Date.now();
-            const elapsed = now - startTime;
+            const elapsed = now - deployTime;
 
             const years = Math.floor(elapsed / (1000 * 60 * 60 * 24 * 365));
             const months = Math.floor((elapsed % (1000 * 60 * 60 * 24 * 365)) / (1000 * 60 * 60 * 24 * 30));
@@ -116,14 +115,8 @@
         };
 
         setInterval(updateCounter, 1000);
-
-        window.addEventListener('beforeunload', () => {
-            localStorage.setItem('startTime', startTime);
-        });
-
         updateCounter();
     </script>
-
 </body>
 
 </html>
